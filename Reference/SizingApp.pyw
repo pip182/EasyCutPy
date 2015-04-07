@@ -1,7 +1,7 @@
-#TODO: Have user choose default folders -  LISTS folder and Save folder. 
-#TODO: Door layout preview - draw image of door on table. 
+#TODO: Have user choose default folders -  LISTS folder and Save folder.
+#TODO: Door layout preview - draw image of door on table.
 #TODO: Break filenames out by job/room
-#TODO: Ability to use different tool numbers. 
+#TODO: Ability to use different tool numbers.
 
 #import xlrd
 import sys, os, re
@@ -14,7 +14,7 @@ from config_ui import Ui_Dialog as config_Ui
 
 #Global data. Modify these if needed
 
-toolDia = 2.5312                    # Diameter of cutting bit. 
+toolDia = 2.5312                    # Diameter of cutting bit.
 toolRadius = toolDia/2              # This is the magic number.    #was 1.2646
 doorCount = 0
 
@@ -26,7 +26,7 @@ Default_Tool = 2
 cfg=con.ConfigParser()
 
 door = []
- 
+
 #For debugging purposes...
 sys.stdout = open("c:\\sizing_debug.log", "w")
 
@@ -38,10 +38,10 @@ if os.path.isfile("c:\\doorsizing.ini"):
 	Default_Tool=cfg.get("Options","default_tool")
 else:
 	cfg.add_section("Options")
-	cfg.set("Options","oversize_amount",Oversize_Amount)              
-	cfg.set("Options","lists_folder",LISTS_Folder)                    
-	cfg.set("Options","output_folder",Output_Folder) 
-	cfg.set("Options","default_tool",Default_Tool)               
+	cfg.set("Options","oversize_amount",Oversize_Amount)
+	cfg.set("Options","lists_folder",LISTS_Folder)
+	cfg.set("Options","output_folder",Output_Folder)
+	cfg.set("Options","default_tool",Default_Tool)
 	dummy=open("C:\\doorsizing.ini","w")
 	cfg.write(dummy)
 	dummy.close()
@@ -61,7 +61,7 @@ class doorClass:
 		try:
 			return int(self.pNum)
 		except:
-			try: 
+			try:
 				return float(self.pNum)
 			except:
 				return str(self.pNum)
@@ -79,37 +79,37 @@ class doorClass:
 				print repr(e)
 
 		fileName = dName + '/' + str(self.page) + ' #' + str(self.get_pNum()) + ' - Line '+ str(self.lineNum) + '.out'
-		
+
 		if fileName:
-			fileHeader = [  ":1", 
-								"("+fileName+")", 
-								"N1 G00 G17 G20 G40 G49 G64 G80 G90 Z0 M5", 
-								"N2 G52 X0 Y0 Z0", 
-								"N3 G08 P1", 
-								"N4 (ROUTER-BIT GENERIC SIZE)", 
-								"N5 G49 Z0 M05", 
-								"N6 G90 T200" + str(self.toolNum) +" M06", 
-								"N7 T102", 
+			fileHeader = [  ":1",
+								"("+fileName+")",
+								"N1 G00 G17 G20 G40 G49 G64 G80 G90 Z0 M5",
+								"N2 G52 X0 Y0 Z0",
+								"N3 G08 P1",
+								"N4 (ROUTER-BIT GENERIC SIZE)",
+								"N5 G49 Z0 M05",
+								"N6 G90 T200" + str(self.toolNum) +" M06",
+								"N7 T102",
 								"N8 M03 S18000"]
-										
-			fileFooter = [  "N22 G00 Z.25", 
-								"N23 G40 G00 Y-5.1881", 
-								"N24 G49 Z0 M5", 
-								"N25 G28 G91 X0 Y0", 
-								"N26 G52 X0 Y0 Z0", 
-								"N27 G08 P0", 
-								"N28 M30", 
+
+			fileFooter = [  "N22 G00 Z.25",
+								"N23 G40 G00 Y-5.1881",
+								"N24 G49 Z0 M5",
+								"N25 G28 G91 X0 Y0",
+								"N26 G52 X0 Y0 Z0",
+								"N27 G08 P0",
+								"N28 M30",
 								"%"]
 
 			self.outFile = open(fileName, "w")
-			
-			if Oversize_Amount > 0: 
+
+			if Oversize_Amount > 0:
 				oa = (float(Oversize_Amount)/2)
 			else:
 				oa = 0.0
 
 			#Insert Header
-			for x in range(0, len(fileHeader)):         
+			for x in range(0, len(fileHeader)):
 					print >> self.outFile,  fileHeader[x]
 			#Begin/Lead In Code
 			print >> self.outFile, "N9 G00 G17 G55 X" + str((self.height/2)-toolDia)+" Y-5.1881"
@@ -155,12 +155,12 @@ class ConfigDialog(QtGui.QDialog):
 		LISTS_Folder = str(self.ui.listsEdit.text())
 		Output_Folder = str(self.ui.outputEdit.text())
 		Default_Tool = int(self.ui.toolNumBox.value())
-		reply = QtGui.QMessageBox.question(self, 'Save Config?', 
+		reply = QtGui.QMessageBox.question(self, 'Save Config?',
 										 "Do you want to save these changes for next time?", QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
 		if reply == QtGui.QMessageBox.Yes:
-			cfg.set("Options","oversize_amount",Oversize_Amount)              
-			cfg.set("Options","lists_folder",LISTS_Folder)                    
-			cfg.set("Options","output_folder",Output_Folder) 
+			cfg.set("Options","oversize_amount",Oversize_Amount)
+			cfg.set("Options","lists_folder",LISTS_Folder)
+			cfg.set("Options","output_folder",Output_Folder)
 			cfg.set("Options","default_tool",Default_Tool)
 			dummy=open("C:\\doorsizing.ini","w")
 			cfg.write(dummy)
@@ -231,12 +231,12 @@ class SizingDialog(QtGui.QDialog):
 			try:
 				door[r].width = float(item.text())
 			except:
-				QtGui.QMessageBox.warning(self, "Dude", "This has to be a number.")   
+				QtGui.QMessageBox.warning(self, "Dude", "This has to be a number.")
 		elif c == 3:
 			try:
 				door[r].height = float(item.text())
 			except:
-				QtGui.QMessageBox.warning(self, "Dude", "This has to be a number.")  
+				QtGui.QMessageBox.warning(self, "Dude", "This has to be a number.")
 		elif c == 4:
 				door[r].lineNum = str.strip(str(item.text()))
 		elif c == 5:
@@ -246,11 +246,11 @@ class SizingDialog(QtGui.QDialog):
 			try:
 				door[r].toolNum = int(item.text())
 			except:
-				QtGui.QMessageBox.warning(self, "Dude", "This has to be a number.")  
+				QtGui.QMessageBox.warning(self, "Dude", "This has to be a number.")
 		self.refresh_list()
 
 	def context_menu(self, point):
-		self.popMenu.exec_(self.ui.doorList.mapToGlobal(point))    
+		self.popMenu.exec_(self.ui.doorList.mapToGlobal(point))
 
 	def remove_door(self):
 		global doorCount
@@ -313,7 +313,7 @@ class SizingDialog(QtGui.QDialog):
 			app.processEvents()
 
 			try:
-				book = openpyxl.reader.excel.load_workbook(str(self.XL_fileName),  use_iterators = True)             
+				book = openpyxl.reader.excel.load_workbook(str(self.XL_fileName),  use_iterators = True)
 				door_sh = book.get_sheet_by_name("DOORS")
 				drawer_sh = book.get_sheet_by_name("DRAWER FRONTS")
 				data_sh = book.get_sheet_by_name("SHIPPING")
@@ -387,7 +387,7 @@ class SizingDialog(QtGui.QDialog):
 				QtGui.QMessageBox.information(self, "Success", "Sizing list generated successfully! \n"
 																											 "File were all saved in " + self.dirName +"\n"
 																											 "Then separated by the job name.")
-			except Exception as e: 
+			except Exception as e:
 				QtGui.QMessageBox.critical(self, "ERROR!!", "Something failed while generating sizing programs... \n"
 																										"Error Message: " + repr(e))
 				print self.dirName
@@ -397,4 +397,4 @@ if __name__ == "__main__":
 	app = QtGui.QApplication(sys.argv)
 	myapp = SizingDialog()
 	myapp.show()
-	sys.exit(app.exec_())   
+	sys.exit(app.exec_())

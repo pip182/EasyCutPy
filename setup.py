@@ -1,7 +1,7 @@
 from distutils.core import setup
 import py2exe
 #sys.argv.append('py2exe')
-file = "easycut.pyw"
+file = "main.py"
 
 
 setup(

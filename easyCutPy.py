@@ -50,25 +50,6 @@ toolChange = 5
 relLine = 6
 
 
-fileOutHeader = ["(BRAD RULES)",
-    "(SIMPLE CUTOUT)",
-    "G20", # Set's input to inch.
-    "G91 G28 Z0 M15",
-    "G90 G40 G49 M22",
-    "M25",
-    "M06",
-    "G08 P1"]
-
-
-fileOutFooter =  ["G0 Z1.2500 M59",
-    "G40",
-    "G91 G28 Z0 M15",
-    "G90 G49 H0 M22",
-    "M25",
-    "M88 B0",
-    "M89 B0",
-    "G08 P0",
-    "G0 X60.0 Y120.0"]
 
 
 
